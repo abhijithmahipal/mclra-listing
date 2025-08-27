@@ -6,12 +6,11 @@ import { db } from '@/lib/firebase';
 import { ResidentDetails } from '@/types';
 import Link from 'next/link';
 
-interface PageProps {
+type PageProps = {
   params: {
     id: string;
   };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
+};
 
 export default function ResidentDetailPage({ params }: PageProps) {
   const [resident, setResident] = useState<ResidentDetails | null>(null);
