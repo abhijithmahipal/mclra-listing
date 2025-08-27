@@ -3,8 +3,8 @@ import "./globals.css";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "MCLRA Directory",
-  description: "MCLRA Resident Directory Application",
+  title: "MCLRA Thrissur",
+  description: "Museum Cross Lane Resident's Association, Chembukkavu - Resident Directory Application",
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
             <div className="flex h-14 items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="h-7 w-7 rounded-md bg-[--primary] text-white flex items-center justify-center font-bold">M</div>
-                <span className="text-sm md:text-base font-semibold">MCLRA Directory</span>
+                <span className="text-sm md:text-base font-semibold">Museum Cross Lane Residents Association</span>
               </div>
               <div className="flex items-center gap-4 text-xs md:text-sm text-[--muted-foreground]">
                 <Link href="/houses" className="hover:text-[--foreground] transition-colors">Directory</Link>
