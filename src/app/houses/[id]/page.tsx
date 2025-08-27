@@ -5,29 +5,25 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ResidentDetails } from '@/types';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
-interface ResidentDetailPageProps {
-  params: {
-    id: string;
-  };
-  searchParams?: { [key: string]: string | undefined };
-}
-
-export default function ResidentDetailPage({ params }: ResidentDetailPageProps) {
+export default function ResidentDetailPage() {
+  const params = useParams();
+  const id = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : '';
   const [resident, setResident] = useState<ResidentDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchResident = async () => {
-      if (!params.id) {
+      if (!id) {
         setError('No resident ID provided');
         setLoading(false);
         return;
       }
 
       try {
-        const docRef = doc(db, 'residents', params.id);
+        const docRef = doc(db, 'residents', id);
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
@@ -44,7 +40,7 @@ export default function ResidentDetailPage({ params }: ResidentDetailPageProps) 
     };
 
     fetchResident();
-  }, [params.id]);
+  }, [id]);
 
   if (loading) return (
     <div className="flex justify-center items-center min-h-screen">

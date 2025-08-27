@@ -4,7 +4,13 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
-  outputFileTracingRoot: __dirname
+  trailingSlash: true,
+  exportPathMap: async function() {
+    return {
+      '/': { page: '/' },
+      '/houses': { page: '/houses' }
+    }
+  }
 }
 
 module.exports = nextConfig
