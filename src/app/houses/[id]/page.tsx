@@ -59,36 +59,36 @@ export default function ResidentDetailPage() {
   if (!resident) return null;
 
   return (
-    <div className="container mx-auto px-4 py-8 text-[--foreground]">
-      <div className="mb-6">
-        <Link href="/houses" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-2">
-          <ArrowLeft className="w-5 h-5" />
+    <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 text-[--foreground]">
+      <div className="mb-4 sm:mb-6">
+        <Link href="/houses" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           Back to Directory
         </Link>
       </div>
 
-      <div className="rounded-2xl p-6 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border] shadow-[0_8px_30px_rgba(0,0,0,0.05)]">
-        <div className="border-b border-[--border] pb-6 mb-6">
+      <div className="rounded-2xl p-4 sm:p-6 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border] shadow-[0_8px_30px_rgba(0,0,0,0.05)]">
+        <div className="border-b border-[--border] pb-4 sm:pb-6 mb-4 sm:mb-6">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-3xl font-bold">{resident.houseName}</h1>
-              <p className="text-lg text-[--muted-foreground] mt-1 inline-flex items-center gap-2">
-                <Home className="w-5 h-5" /> House #{resident.houseNumber}
+              <h1 className="text-2xl sm:text-3xl font-bold">{resident.houseName}</h1>
+              <p className="text-sm sm:text-lg text-[--muted-foreground] mt-1 inline-flex items-center gap-1.5 sm:gap-2">
+                <Home className="w-4 h-4 sm:w-5 sm:h-5" /> House #{resident.houseNumber}
                 <span className="opacity-50">•</span>
-                <MapPin className="w-5 h-5" /> Street {resident.street}
+                <MapPin className="w-4 h-4 sm:w-5 sm:h-5" /> Street {resident.street}
               </p>
             </div>
-            <span className="px-4 py-2 bg-blue-500/15 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium border border-blue-500/25">
-              <Users className="inline w-4 h-4 mr-1" /> {resident.totalFamilyMembers} Members
+            <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500/15 text-blue-600 dark:text-blue-400 rounded-full text-xs sm:text-sm font-medium border border-blue-500/25">
+              <Users className="inline w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" /> {resident.totalFamilyMembers} Members
             </span>
           </div>
           
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="text-[--muted-foreground]">
+          <div className="mt-3 sm:mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div className="text-[--muted-foreground] text-sm sm:text-base">
               <p>Floor Type: {resident.floorType}</p>
               <p>Ownership: {resident.ownership}</p>
               {resident.ownership === 'rented' && (resident.permanentAddress || resident.ownerAddress) && (
-                <div className="mt-2 text-sm space-y-1">
+                <div className="mt-2 text-xs sm:text-sm space-y-1">
                   {resident.permanentAddress && (
                     <p>Permanent Address: {resident.permanentAddress}</p>
                   )}
@@ -102,24 +102,24 @@ export default function ResidentDetailPage() {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Head of Family</h2>
-          <div className="rounded-2xl p-4 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border]">
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Head of Family</h2>
+          <div className="rounded-2xl p-3 sm:p-4 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border]">
             <div className="flex items-center gap-4">
-              <div className="h-16 w-16 bg-blue-500/15 rounded-full flex items-center justify-center text-blue-500 dark:text-blue-400 text-xl font-semibold border border-blue-500/25">
-                <User className="w-7 h-7" />
+              <div className="h-12 w-12 sm:h-16 sm:w-16 bg-blue-500/15 rounded-full flex items-center justify-center text-blue-500 dark:text-blue-400 text-lg sm:text-xl font-semibold border border-blue-500/25">
+                <User className="w-5 h-5 sm:w-7 sm:h-7" />
               </div>
               <div>
-                <h3 className="text-lg font-medium">{resident.headOfFamily.name}</h3>
+                <h3 className="text-base sm:text-lg font-medium">{resident.headOfFamily.name}</h3>
                 <p className="text-[--muted-foreground]">{resident.headOfFamily.occupation || 'Occupation not specified'}</p>
                 <div className="mt-2 flex items-center gap-4">
                   <a
                     href={`tel:${resident.headOfFamily.phone}`}
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-1"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-1 text-sm sm:text-base"
                   >
-                    <Phone className="w-4 h-4" />
+                    <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     {resident.headOfFamily.phone}
                   </a>
-                  <span className="text-[--muted-foreground]">Blood Group: {resident.headOfFamily.bloodGroup}</span>
+                  <span className="text-[--muted-foreground] text-sm sm:text-base">Blood Group: {resident.headOfFamily.bloodGroup}</span>
                 </div>
               </div>
             </div>
@@ -128,31 +128,31 @@ export default function ResidentDetailPage() {
 
         {resident.familyMembers.length > 0 && (
           <div>
-            <h2 className="text-xl font-semibold mb-4">Family Members</h2>
-            <div className="space-y-4">
+            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Family Members</h2>
+            <div className="space-y-3 sm:space-y-4">
               {resident.familyMembers.map((member, index) => (
-                <div key={index} className="rounded-2xl p-4 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border]">
+                <div key={index} className="rounded-2xl p-3 sm:p-4 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border]">
                   <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 bg-blue-500/15 rounded-full flex items-center justify-center text-blue-500 dark:text-blue-400 font-medium border border-blue-500/25">
-                      <User className="w-5 h-5" />
+                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-blue-500/15 rounded-full flex items-center justify-center text-blue-500 dark:text-blue-400 font-medium border border-blue-500/25">
+                      <User className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                     <div>
-                      <h3 className="font-medium">{member.name}</h3>
-                      <p className="text-[--muted-foreground] text-sm">{member.relationship}</p>
+                      <h3 className="text-sm sm:text-base font-medium">{member.name}</h3>
+                      <p className="text-[--muted-foreground] text-xs sm:text-sm">{member.relationship}</p>
                       {member.occupation && (
-                        <p className="text-[--muted-foreground] text-sm">{member.occupation}</p>
+                        <p className="text-[--muted-foreground] text-xs sm:text-sm">{member.occupation}</p>
                       )}
                       <div className="mt-1 flex items-center gap-4">
                         {member.phone && (
                           <a
                             href={`tel:${member.phone}`}
-                            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-1 text-sm"
+                            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-1 text-xs sm:text-sm"
                           >
-                            <Phone className="w-4 h-4" />
+                            <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                             {member.phone}
                           </a>
                         )}
-                        <span className="text-[--muted-foreground] text-sm">Blood Group: {member.bloodGroup}</span>
+                        <span className="text-[--muted-foreground] text-xs sm:text-sm">Blood Group: {member.bloodGroup}</span>
                       </div>
                     </div>
                   </div>

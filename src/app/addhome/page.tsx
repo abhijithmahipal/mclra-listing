@@ -238,7 +238,6 @@ export default function AddHomePage() {
             </section>
 
             <div className="flex items-center justify-between pt-2">
-              <button type="reset" className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700">Reset Form</button>
               <button disabled={submitting} type="submit" className="px-4 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 transition-colors">
                 {submitting ? 'Submitting...' : 'Submit Information'}
               </button>

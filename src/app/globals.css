@@ -1,37 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  /* Palette */
-  --primary: #1e40af; /* deep blue */
-  --primary-foreground: #eaf2ff;
-  --accent: #059669; /* emerald */
-  --accent-foreground: #ecfdf5;
-  --background: #f8fafc; /* light gray */
-  --foreground: #374151; /* charcoal */
+  /* Modern Color Palette */
+  --primary: #2563eb; /* vibrant blue */
+  --primary-foreground: #eff6ff;
+  --accent: #8b5cf6; /* vibrant purple */
+  --accent-foreground: #faf5ff;
+  --background: #f8fafc;
+  --foreground: #1e293b;
 
   --card: #ffffff;
   --card-foreground: #1f2937;
 
-  --muted: #eef2f7;
-  --muted-foreground: #6b7280;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
 
-  --border: rgba(0,0,0,0.08);
-  --ring: rgba(30,64,175,0.45);
+  --border: rgba(0,0,0,0.06);
+  --ring: rgba(59, 130, 246, 0.5);
+  
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1rem;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0b0f17;
-    --foreground: #e5e7eb;
+    --background: #0f172a;
+    --foreground: #f1f5f9;
 
-    --card: rgba(255,255,255,0.06);
-    --card-foreground: #e5e7eb;
+    --card: rgba(255, 255, 255, 0.05);
+    --card-foreground: #f8fafc;
 
-    --muted: rgba(255,255,255,0.08);
-    --muted-foreground: #9ca3af;
+    --muted: rgba(255, 255, 255, 0.08);
+    --muted-foreground: #94a3b8;
 
-    --border: rgba(255,255,255,0.12);
-    --ring: rgba(16,185,129,0.45);
+    --border: rgba(255, 255, 255, 0.12);
+    --ring: rgba(139, 92, 246, 0.5);
   }
 }
 
@@ -44,12 +53,104 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  
+  --radius: var(--radius);
+  --radius-sm: var(--radius-sm);
+  --radius-lg: var(--radius-lg);
+  
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar for modern look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: var(--radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: var(--radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Animation classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.4s ease-out forwards;
+}
+
+/* Glassmorphism effect utility */
+.glass {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
 }
