@@ -6,19 +6,26 @@ import { db } from '@/lib/firebase';
 import { ResidentDetails } from '@/types';
 import Link from 'next/link';
 
-type PageProps = {
+interface ResidentDetailPageProps {
   params: {
     id: string;
   };
-};
+  searchParams?: { [key: string]: string | undefined };
+}
 
-export default function ResidentDetailPage({ params }: PageProps) {
+export default function ResidentDetailPage({ params }: ResidentDetailPageProps) {
   const [resident, setResident] = useState<ResidentDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchResident = async () => {
+      if (!params.id) {
+        setError('No resident ID provided');
+        setLoading(false);
+        return;
+      }
+
       try {
         const docRef = doc(db, 'residents', params.id);
         const docSnap = await getDoc(docRef);
@@ -55,145 +62,125 @@ export default function ResidentDetailPage({ params }: PageProps) {
   if (!resident) return null;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-6 flex items-center justify-between">
-        <Link 
-          href="/houses" 
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
-        >
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-6">
+        <Link href="/houses" className="text-blue-600 hover:text-blue-700 flex items-center gap-2">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
           </svg>
           Back to Directory
         </Link>
       </div>
 
-      <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
-        {/* Header Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-3xl font-bold mb-4">{resident.houseName}</h1>
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="px-3 py-1 bg-white/20 rounded-full text-sm backdrop-blur-sm">
-                House No: {resident.houseNumber}
-              </span>
-              <span className="px-3 py-1 bg-white/20 rounded-full text-sm backdrop-blur-sm">
-                Street: {resident.street}
-              </span>
-              <span className="px-3 py-1 bg-white/20 rounded-full text-sm backdrop-blur-sm">
-                {resident.totalFamilyMembers} Members
-              </span>
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="border-b pb-6 mb-6">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">{resident.houseName}</h1>
+              <p className="text-lg text-gray-600 mt-1">House #{resident.houseNumber}, Street {resident.street}</p>
+            </div>
+            <span className="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+              {resident.totalFamilyMembers} Members
+            </span>
+          </div>
+          
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="text-gray-600">
+              <p>Floor Type: {resident.floorType}</p>
+              <p>Ownership: {resident.ownership}</p>
             </div>
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto p-8">
-          <div className="grid gap-8">
-            {/* Head of Family Section */}
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold text-gray-900">Head of Family</h2>
-              <div className="bg-blue-50 border border-blue-100 p-6 rounded-xl">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900">{resident.headOfFamily.name}</h3>
-                    <p className="text-blue-600 font-medium">{resident.headOfFamily.occupation || 'Not specified'}</p>
-                  </div>
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Head of Family</h2>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xl font-semibold">
+                {resident.headOfFamily.name.charAt(0)}
+              </div>
+              <div>
+                <h3 className="text-lg font-medium">{resident.headOfFamily.name}</h3>
+                <p className="text-gray-600">{resident.headOfFamily.occupation || 'Occupation not specified'}</p>
+                <div className="mt-2 flex items-center gap-4">
                   <a
                     href={`tel:${resident.headOfFamily.phone}`}
-                    className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                    className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
                   >
-                    <span className="text-2xl">📞</span>
-                    <span className="underline font-medium">{resident.headOfFamily.phone}</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    {resident.headOfFamily.phone}
                   </a>
+                  <span className="text-gray-600">Blood Group: {resident.headOfFamily.bloodGroup}</span>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-4">
-                  <div className="bg-white px-4 py-2 rounded-lg">
-                    <span className="text-gray-500">Blood Group:</span>
-                    <span className="ml-2 font-medium text-gray-900">{resident.headOfFamily.bloodGroup}</span>
-                  </div>
-                </div>
-                {resident.headOfFamily.emergencyContact && (
-                  <div className="mt-6 bg-white p-4 rounded-lg border border-blue-100">
-                    <p className="text-sm font-medium text-gray-500 mb-2">Emergency Contact</p>
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium text-gray-900">{resident.headOfFamily.emergencyContact.name}</span>
-                      <a
-                        href={`tel:${resident.headOfFamily.emergencyContact.phone}`}
-                        className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2"
-                      >
-                        <span>📞</span>
-                        {resident.headOfFamily.emergencyContact.phone}
-                      </a>
-                    </div>
-                  </div>
-                )}
               </div>
-            </section>
+            </div>
+          </div>
+        </div>
 
-            {/* Family Members Section */}
-            {resident.familyMembers.length > 0 && (
-              <section className="space-y-4">
-                <h2 className="text-2xl font-bold text-gray-900">Family Members</h2>
-                <div className="grid gap-4">
-                  {resident.familyMembers.map((member, index) => (
-                    <div 
-                      key={index} 
-                      className="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:border-blue-200 transition-colors"
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <h3 className="text-lg font-semibold text-gray-900">{member.name}</h3>
-                          <p className="text-blue-600 font-medium">{member.relationship}</p>
-                          {member.occupation && (
-                            <p className="text-gray-600 mt-1">{member.occupation}</p>
-                          )}
-                        </div>
+        {resident.familyMembers.length > 0 && (
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Family Members</h2>
+            <div className="space-y-4">
+              {resident.familyMembers.map((member, index) => (
+                <div key={index} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium">
+                      {member.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h3 className="font-medium">{member.name}</h3>
+                      <p className="text-gray-600 text-sm">{member.relationship}</p>
+                      {member.occupation && (
+                        <p className="text-gray-600 text-sm">{member.occupation}</p>
+                      )}
+                      <div className="mt-1 flex items-center gap-4">
                         {member.phone && (
                           <a
                             href={`tel:${member.phone}`}
-                            className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                            className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-sm"
                           >
-                            <span className="text-2xl">📞</span>
-                            <span className="underline font-medium">{member.phone}</span>
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            {member.phone}
                           </a>
                         )}
-                      </div>
-                      <div className="mt-4">
-                        <div className="inline-block bg-white px-3 py-1 rounded-lg border border-gray-100">
-                          <span className="text-gray-500">Blood Group:</span>
-                          <span className="ml-2 font-medium text-gray-900">{member.bloodGroup}</span>
-                        </div>
+                        <span className="text-gray-600 text-sm">Blood Group: {member.bloodGroup}</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* House Details Section */}
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold text-gray-900">House Details</h2>
-              <div className="grid gap-4 p-6 rounded-xl bg-gray-50 border border-gray-100">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <span className="text-gray-500">Floor Type:</span>
-                    <span className="ml-2 capitalize font-medium text-gray-900">{resident.floorType}</span>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <span className="text-gray-500">Ownership:</span>
-                    <span className="ml-2 capitalize font-medium text-gray-900">{resident.ownership}</span>
                   </div>
                 </div>
-                {resident.permanentAddress && (
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <span className="text-gray-500">Permanent Address:</span>
-                    <span className="ml-2 font-medium text-gray-900">{resident.permanentAddress}</span>
-                  </div>
-                )}
-              </div>
-            </section>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {resident.headOfFamily.emergencyContact && (
+          <div className="mt-8 pt-6 border-t">
+            <h2 className="text-xl font-semibold mb-4">Emergency Contact</h2>
+            <div className="bg-red-50 rounded-lg p-4">
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center text-red-600 font-medium">
+                  {resident.headOfFamily.emergencyContact.name.charAt(0)}
+                </div>
+                <div>
+                  <h3 className="font-medium">{resident.headOfFamily.emergencyContact.name}</h3>
+                  <a
+                    href={`tel:${resident.headOfFamily.emergencyContact.phone}`}
+                    className="text-red-600 hover:text-red-800 flex items-center gap-1 mt-1"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    {resident.headOfFamily.emergencyContact.phone}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
