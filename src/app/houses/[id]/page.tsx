@@ -6,7 +6,14 @@ import { db } from '@/lib/firebase';
 import { ResidentDetails } from '@/types';
 import Link from 'next/link';
 
-export default function ResidentDetailPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export default function ResidentDetailPage({ params }: PageProps) {
   const [resident, setResident] = useState<ResidentDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +29,8 @@ export default function ResidentDetailPage({ params }: { params: { id: string } 
         } else {
           setError('Resident not found');
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        console.error('Error fetching resident:', err);
         setError('Failed to fetch resident details');
       } finally {
         setLoading(false);
