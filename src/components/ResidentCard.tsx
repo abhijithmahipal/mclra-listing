@@ -10,7 +10,7 @@ export function ResidentCard({ resident }: { resident: ResidentDetails }) {
       href={`/houses/${resident.id}`}
       className="block group"
     >
-      <div className="rounded-2xl border border-[--border] bg-[--card] text-[--card-foreground] backdrop-blur-xl transition-all duration-200 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-blue-500/40 hover:-translate-y-0.5">
+      <div className="rounded-2xl border border-[--border] bg-[--card] text-[--card-foreground] backdrop-blur-xl transition-all duration-200 hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)] hover:border-blue-500/40 hover:-translate-y-0.5">
         <div className="p-6">
           {/* House Number Badge */
           }

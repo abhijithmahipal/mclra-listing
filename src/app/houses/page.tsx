@@ -72,7 +72,7 @@ export default function HomePage() {
             <input
               type="text"
               placeholder="Search by house name, number, member name, or phone..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl bg-white/50 dark:bg-white/10 text-[--foreground] placeholder-[--muted-foreground] border border-[--border] focus:outline-none focus:ring-2 focus:ring-[--ring] focus:border-transparent backdrop-blur-md"
+              className="w-full pl-10 pr-4 py-2 rounded-xl bg-white/60 dark:bg-white/10 text-[--foreground] placeholder-[--muted-foreground] border border-[--border] focus:outline-none focus:ring-2 focus:ring-[--ring] focus:border-transparent backdrop-blur-md"
               onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[--foreground]/80"></div>
         </div>
       ) : (
-        <div className={`grid gap-6 ${
+        <div className={`grid gap-8 ${
           view === 'grid' 
             ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
             : 'grid-cols-1'

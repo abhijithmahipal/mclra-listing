@@ -5,7 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ResidentDetails } from '@/types';
 import Link from 'next/link';
-import { MapPin, Users, Phone, User, Home } from 'lucide-react';
+import { MapPin, Users, Phone, User, Home, ArrowLeft } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 export default function ResidentDetailPage() {
@@ -62,9 +62,7 @@ export default function ResidentDetailPage() {
     <div className="container mx-auto px-4 py-8 text-[--foreground]">
       <div className="mb-6">
         <Link href="/houses" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-2">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-          </svg>
+          <ArrowLeft className="w-5 h-5" />
           Back to Directory
         </Link>
       </div>
@@ -178,9 +176,7 @@ export default function ResidentDetailPage() {
                     href={`tel:${resident.headOfFamily.emergencyContact.phone}`}
                     className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 flex items-center gap-1 mt-1"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
+                    <Phone className="w-4 h-4" />
                     {resident.headOfFamily.emergencyContact.phone}
                   </a>
                 </div>

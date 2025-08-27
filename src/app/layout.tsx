@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`min-h-screen bg-[--background] text-[--foreground]`}>
-        <nav className="sticky top-0 z-40 bg-[--card]/90 backdrop-blur-xl border-b border-[--border]">
+        <nav className="sticky top-0 z-40 backdrop-blur-xl border-b border-[--border] bg-[--card]/90">
           <div className="container mx-auto px-4">
             <div className="flex h-14 items-center justify-between">
               <div className="flex items-center gap-2">
@@ -34,6 +34,18 @@ export default function RootLayout({
             {children}
           </div>
         </div>
+        <footer className="border-t border-[--border] backdrop-blur-xl bg-[--card]/80">
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+              <p className="text-sm text-[--muted-foreground]">© {new Date().getFullYear()} MCLRA. All rights reserved.</p>
+              <div className="flex items-center gap-4 text-sm">
+                <Link href="/houses" className="hover:underline">Directory</Link>
+                <Link href="#" className="hover:underline">Privacy</Link>
+                <Link href="#" className="hover:underline">Contact</Link>
+              </div>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
