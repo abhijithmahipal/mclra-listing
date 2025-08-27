@@ -13,19 +13,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`bg-gray-50`}>
-        <nav className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
+      <body className={`min-h-screen bg-[--background] text-[--foreground]`}>
+        <nav className="sticky top-0 z-40 backdrop-blur-xl bg-white/10 dark:bg-white/10 border-b border-[--border] text-[--foreground]">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold">MCLRA Directory</h1>
-              <div className="text-sm">
+              <h1 className="text-xl md:text-2xl font-semibold">MCLRA Directory</h1>
+              <div className="text-xs md:text-sm text-[--muted-foreground]">
                 Museum Cross Lane Residents Association
               </div>
             </div>
           </div>
         </nav>
-        <div className="min-h-screen pb-12">
-          {children}
+        <div className="min-h-screen">
+          <div className="container mx-auto px-4 py-8">
+            {children}
+          </div>
         </div>
       </body>
     </html>
