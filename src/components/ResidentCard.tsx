@@ -20,9 +20,17 @@ export function ResidentCard({ resident }: { resident: ResidentDetails }) {
           <h2 className="text-xl font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
             {resident.houseName}
           </h2>
-          <p className="text-sm mt-1 text-[--muted-foreground]">
-            Street {resident.street}
-          </p>
+          <p className="text-sm mt-1 text-[--muted-foreground]">Street {resident.street}</p>
+          {resident.ownership === 'rented' && (resident.permanentAddress || resident.ownerAddress) && (
+            <div className="mt-2 text-xs text-[--muted-foreground] space-y-1">
+              {resident.permanentAddress && (
+                <p>Permanent: {resident.permanentAddress}</p>
+              )}
+              {resident.ownerAddress && (
+                <p>Owner: {resident.ownerAddress}</p>
+              )}
+            </div>
+          )}
 
           {/* Head of Family Info */}
           <div className="mt-4 flex items-center justify-between">

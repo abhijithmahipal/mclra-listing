@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "seed": "node ./scripts/seed.mjs",
     "postinstall": "next telemetry disable"
   },
   "dependencies": {

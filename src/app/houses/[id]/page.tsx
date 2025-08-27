@@ -84,6 +84,16 @@ export default function ResidentDetailPage() {
             <div className="text-[--muted-foreground]">
               <p>Floor Type: {resident.floorType}</p>
               <p>Ownership: {resident.ownership}</p>
+              {resident.ownership === 'rented' && (resident.permanentAddress || resident.ownerAddress) && (
+                <div className="mt-2 text-sm space-y-1">
+                  {resident.permanentAddress && (
+                    <p>Permanent Address: {resident.permanentAddress}</p>
+                  )}
+                  {resident.ownerAddress && (
+                    <p>Owner Address: {resident.ownerAddress}</p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
