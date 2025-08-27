@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "MCLRA Directory",
@@ -14,12 +15,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`min-h-screen bg-[--background] text-[--foreground]`}>
-        <nav className="sticky top-0 z-40 backdrop-blur-xl bg-white/10 dark:bg-white/10 border-b border-[--border] text-[--foreground]">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-xl md:text-2xl font-semibold">MCLRA Directory</h1>
-              <div className="text-xs md:text-sm text-[--muted-foreground]">
-                Museum Cross Lane Residents Association
+        <nav className="sticky top-0 z-40 bg-[--card]/90 backdrop-blur-xl border-b border-[--border]">
+          <div className="container mx-auto px-4">
+            <div className="flex h-14 items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-md bg-[--primary] text-white flex items-center justify-center font-bold">M</div>
+                <span className="text-sm md:text-base font-semibold">MCLRA Directory</span>
+              </div>
+              <div className="flex items-center gap-4 text-xs md:text-sm text-[--muted-foreground]">
+                <Link href="/houses" className="hover:text-[--foreground] transition-colors">Directory</Link>
+                <Link href="/addhome" className="hover:text-[--foreground] transition-colors">Add Home</Link>
               </div>
             </div>
           </div>

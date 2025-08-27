@@ -5,6 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ResidentDetails } from '@/types';
 import Link from 'next/link';
+import { MapPin, Users, Phone, User, Home } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 export default function ResidentDetailPage() {
@@ -73,10 +74,14 @@ export default function ResidentDetailPage() {
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-3xl font-bold">{resident.houseName}</h1>
-              <p className="text-lg text-[--muted-foreground] mt-1">House #{resident.houseNumber}, Street {resident.street}</p>
+              <p className="text-lg text-[--muted-foreground] mt-1 inline-flex items-center gap-2">
+                <Home className="w-5 h-5" /> House #{resident.houseNumber}
+                <span className="opacity-50">•</span>
+                <MapPin className="w-5 h-5" /> Street {resident.street}
+              </p>
             </div>
             <span className="px-4 py-2 bg-blue-500/15 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium border border-blue-500/25">
-              {resident.totalFamilyMembers} Members
+              <Users className="inline w-4 h-4 mr-1" /> {resident.totalFamilyMembers} Members
             </span>
           </div>
           
@@ -103,7 +108,7 @@ export default function ResidentDetailPage() {
           <div className="rounded-2xl p-4 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border]">
             <div className="flex items-center gap-4">
               <div className="h-16 w-16 bg-blue-500/15 rounded-full flex items-center justify-center text-blue-500 dark:text-blue-400 text-xl font-semibold border border-blue-500/25">
-                {resident.headOfFamily.name.charAt(0)}
+                <User className="w-7 h-7" />
               </div>
               <div>
                 <h3 className="text-lg font-medium">{resident.headOfFamily.name}</h3>
@@ -113,9 +118,7 @@ export default function ResidentDetailPage() {
                     href={`tel:${resident.headOfFamily.phone}`}
                     className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-1"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
+                    <Phone className="w-4 h-4" />
                     {resident.headOfFamily.phone}
                   </a>
                   <span className="text-[--muted-foreground]">Blood Group: {resident.headOfFamily.bloodGroup}</span>
@@ -133,7 +136,7 @@ export default function ResidentDetailPage() {
                 <div key={index} className="rounded-2xl p-4 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border]">
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 bg-blue-500/15 rounded-full flex items-center justify-center text-blue-500 dark:text-blue-400 font-medium border border-blue-500/25">
-                      {member.name.charAt(0)}
+                      <User className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="font-medium">{member.name}</h3>
@@ -147,9 +150,7 @@ export default function ResidentDetailPage() {
                             href={`tel:${member.phone}`}
                             className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-1 text-sm"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
+                            <Phone className="w-4 h-4" />
                             {member.phone}
                           </a>
                         )}

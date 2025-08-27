@@ -97,23 +97,23 @@ export default function AddHomePage() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="houseNumber">House Number*</label>
-                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="houseNumber" name="houseNumber" required />
+                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="houseNumber" name="houseNumber" required placeholder="e.g., 42" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="houseName">House Name</label>
-                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="houseName" name="houseName" />
+                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="houseName" name="houseName" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="street">Street*</label>
-                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="street" name="street" required />
+                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="street" name="street" required />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="ownership">Ownership Status*</label>
                   <select
-                    className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent"
+                    className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none"
                     id="ownership"
                     name="ownership"
                     required
@@ -130,18 +130,18 @@ export default function AddHomePage() {
                   <div className="md:col-span-2 grid md:grid-cols-2 gap-4 p-4 rounded-md bg-white/50 dark:bg-white/10 border border-[--border]">
                     <div>
                       <label className="block text-sm font-medium mb-1" htmlFor="permanentAddress">Permanent Address (if rented)</label>
-                      <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="permanentAddress" name="permanentAddress" />
+                      <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="permanentAddress" name="permanentAddress" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-1" htmlFor="ownerAddress">Owner&apos;s Address (if rented)</label>
-                      <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="ownerAddress" name="ownerAddress" />
+                      <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="ownerAddress" name="ownerAddress" />
                     </div>
                   </div>
                 )}
 
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="floorType">Floor Type*</label>
-                  <select className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="floorType" name="floorType" required>
+                  <select className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="floorType" name="floorType" required>
                     <option value="">Select Floor Type</option>
                     <option value="entire">Entire Home</option>
                     <option value="partial">Ground Floor</option>
@@ -151,7 +151,7 @@ export default function AddHomePage() {
 
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="familyMembers">Total Number of Family Members*</label>
-                  <input type="number" min={1} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="familyMembers" name="familyMembers" required />
+                  <input type="number" min={1} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="familyMembers" name="familyMembers" required />
                 </div>
               </div>
             </section>
@@ -162,27 +162,27 @@ export default function AddHomePage() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="headName">Name*</label>
-                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="headName" name="headName" required />
+                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="headName" name="headName" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="headPhone">Phone Number*</label>
-                  <input type="tel" className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="headPhone" name="headPhone" required />
+                  <input type="tel" className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="headPhone" name="headPhone" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="emergencyName">Emergency Contact Name*</label>
-                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="emergencyName" name="emergencyName" required />
+                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="emergencyName" name="emergencyName" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="emergencyPhone">Emergency Contact Number*</label>
-                  <input type="tel" className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="emergencyPhone" name="emergencyPhone" required />
+                  <input type="tel" className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="emergencyPhone" name="emergencyPhone" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="headOccupation">Occupation*</label>
-                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="headOccupation" name="headOccupation" required />
+                  <input className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="headOccupation" name="headOccupation" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1" htmlFor="headBloodGroup">Blood Group*</label>
-                  <select className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" id="headBloodGroup" name="headBloodGroup" required>
+                  <select className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" id="headBloodGroup" name="headBloodGroup" required>
                     <option value="">Select Blood Group</option>
                     {['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(bg => (
                       <option key={bg} value={bg}>{bg}</option>
@@ -203,23 +203,23 @@ export default function AddHomePage() {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium mb-1">Name</label>
-                        <input value={member.name} onChange={(e) => updateMember(index, 'name', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" required />
+                        <input value={member.name} onChange={(e) => updateMember(index, 'name', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" required />
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-1">Relationship to Head</label>
-                        <input value={member.relationship} onChange={(e) => updateMember(index, 'relationship', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" required />
+                        <input value={member.relationship} onChange={(e) => updateMember(index, 'relationship', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" required />
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-1">Phone Number</label>
-                        <input type="tel" value={member.phone} onChange={(e) => updateMember(index, 'phone', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" />
+                        <input type="tel" value={member.phone} onChange={(e) => updateMember(index, 'phone', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-1">Occupation</label>
-                        <input value={member.occupation} onChange={(e) => updateMember(index, 'occupation', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent" />
+                        <input value={member.occupation} onChange={(e) => updateMember(index, 'occupation', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-1">Blood Group</label>
-                        <select value={member.bloodGroup} onChange={(e) => updateMember(index, 'bloodGroup', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent">
+                        <select value={member.bloodGroup} onChange={(e) => updateMember(index, 'bloodGroup', e.target.value)} className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none">
                           <option value="">Select Blood Group</option>
                           {['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(bg => (
                             <option key={bg} value={bg}>{bg}</option>
@@ -234,12 +234,12 @@ export default function AddHomePage() {
                 ))}
               </div>
 
-              <button type="button" onClick={addMember} className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">Add Family Member</button>
+              <button type="button" onClick={addMember} className="px-3 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-700">Add Family Member</button>
             </section>
 
             <div className="flex items-center justify-between pt-2">
               <button type="reset" className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700">Reset Form</button>
-              <button disabled={submitting} type="submit" className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-60">
+              <button disabled={submitting} type="submit" className="px-4 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 transition-colors">
                 {submitting ? 'Submitting...' : 'Submit Information'}
               </button>
             </div>
@@ -249,7 +249,7 @@ export default function AddHomePage() {
             )}
           </form>
         ) : (
-          <div className="p-4 rounded-md bg-green-600 text-white">
+          <div className="p-4 rounded-md bg-[--accent] text-white">
             <h3 className="text-lg font-semibold">Thank you!</h3>
             <p>Your information has been successfully submitted.</p>
           </div>
