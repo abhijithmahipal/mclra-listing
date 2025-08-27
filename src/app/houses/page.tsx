@@ -78,7 +78,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {(['houseName', 'houseNumber', 'street'] as const).map((field) => (
+            {(['houseName', 'houseNumber'] as const).map((field) => (
               <button
                 key={field}
                 onClick={() => handleSort(field)}

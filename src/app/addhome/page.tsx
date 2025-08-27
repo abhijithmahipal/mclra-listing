@@ -228,17 +228,17 @@ export default function AddHomePage() {
                       </div>
                     </div>
                     <div className="mt-3">
-                      <button type="button" onClick={() => removeMember(index)} className="px-3 py-2 rounded-md text-white bg-red-600 hover:bg-red-700">Remove</button>
+                      <button type="button" onClick={() => removeMember(index)} className="px-3 py-2 rounded-lg text-[#475569] bg-[#e2e8f0] hover:bg-[#cbd5e1] transition-all shadow-[0_4px_8px_rgba(0,0,0,0.1)]">Remove</button>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <button type="button" onClick={addMember} className="px-3 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-700">Add Family Member</button>
+              <button type="button" onClick={addMember} className="px-3 py-2 rounded-lg text-[#475569] bg-[#e2e8f0] hover:bg-[#cbd5e1] transition-all shadow-[0_4px_8px_rgba(0,0,0,0.1)]">Add Family Member</button>
             </section>
 
             <div className="flex items-center justify-between pt-2">
-              <button disabled={submitting} type="submit" className="px-4 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 transition-colors">
+              <button disabled={submitting} type="submit" className="px-4 py-2 rounded-lg text-white bg-[#4f46e5] hover:bg-[#4338ca] disabled:opacity-60 transition-all shadow-[0_4px_8px_rgba(0,0,0,0.1)]">
                 {submitting ? 'Submitting...' : 'Submit Information'}
               </button>
             </div>
