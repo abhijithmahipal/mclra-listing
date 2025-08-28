@@ -33,9 +33,11 @@ export const setupRecaptcha = (containerId: string): RecaptchaVerifier => {
     size: "invisible",
     callback: () => {
       // reCAPTCHA solved, allow signInWithPhoneNumber
+      console.log("reCAPTCHA solved successfully");
     },
     "expired-callback": () => {
       // Response expired, ask user to solve reCAPTCHA again
+      console.log("reCAPTCHA expired, please try again");
     },
   });
 };
@@ -142,4 +144,17 @@ export const validatePhoneNumber = (phoneNumber: string): boolean => {
   const phoneRegex = /^[+]?[91]?[6-9]\d{9}$/;
   const cleaned = phoneNumber.replace(/\D/g, "");
   return phoneRegex.test(cleaned) && cleaned.length >= 10;
+};
+
+/**
+ * Check if phone number is a test number
+ * @param phoneNumber - Phone number to check
+ * @returns boolean indicating if it's a test number
+ */
+export const isTestPhoneNumber = (phoneNumber: string): boolean => {
+  const testNumbers = [
+    "+919400722590", // Your test number
+    "+91923456789", // Generic test number
+  ];
+  return testNumbers.includes(phoneNumber);
 };

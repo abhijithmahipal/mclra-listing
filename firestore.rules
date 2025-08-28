@@ -1,0 +1,127 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions for authentication and authorization
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserId() {
+      return request.auth.uid;
+    }
+    
+    function isOwner(userId) {
+      return getUserId() == userId;
+    }
+    
+    // Get user document to check role and house association
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(getUserId())).data;
+    }
+    
+    function isHeadOfFamily() {
+      return getUserData().role == 'head';
+    }
+    
+    function getUserHouseId() {
+      return getUserData().houseId;
+    }
+    
+    function isHeadOfHouse(houseId) {
+      return isAuthenticated() && 
+             isHeadOfFamily() && 
+             getUserHouseId() == houseId;
+    }
+    
+    function isHeadOfResidentHouse(residentData) {
+      return isAuthenticated() && 
+             isHeadOfFamily() && 
+             getUserHouseId() == residentData.houseId;
+    }
+    
+    // Users collection rules
+    match /users/{userId} {
+      // Users can read their own document
+      allow read: if isAuthenticated() && isOwner(userId);
+      
+      // Users can create their own document during registration
+      allow create: if isAuthenticated() && 
+                       isOwner(userId) && 
+                       request.resource.data.id == userId &&
+                       request.resource.data.phoneNumber is string &&
+                       request.resource.data.role in ['head', 'member'] &&
+                       request.resource.data.houseId is string &&
+                       request.resource.data.createdAt == request.time &&
+                       request.resource.data.lastLoginAt == request.time;
+      
+      // Users can update their own lastLoginAt timestamp
+      allow update: if isAuthenticated() && 
+                       isOwner(userId) && 
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastLoginAt']) &&
+                       request.resource.data.lastLoginAt == request.time;
+    }
+    
+    // Houses collection rules
+    match /houses/{houseId} {
+      // All authenticated users can read all house data (Requirement 5.2)
+      allow read: if isAuthenticated();
+      
+      // Only authenticated users can create houses during registration
+      allow create: if isAuthenticated() && 
+                       request.resource.data.houseNumber is string &&
+                       request.resource.data.headOfFamilyId == getUserId() &&
+                       request.resource.data.memberIds is list &&
+                       request.resource.data.createdAt == request.time &&
+                       request.resource.data.updatedAt == request.time;
+      
+      // Only head of family can update their own house (add members)
+      allow update: if isAuthenticated() && 
+                       resource.data.headOfFamilyId == getUserId() &&
+                       request.resource.data.headOfFamilyId == resource.data.headOfFamilyId &&
+                       request.resource.data.houseNumber == resource.data.houseNumber &&
+                       request.resource.data.createdAt == resource.data.createdAt &&
+                       request.resource.data.updatedAt == request.time;
+    }
+    
+    // Residents collection rules
+    match /residents/{residentId} {
+      // All authenticated users can read all resident data (Requirement 5.2, 5.4)
+      allow read: if isAuthenticated();
+      
+      // Only heads of family can create residents for their own house (Requirement 4.3)
+      allow create: if isAuthenticated() && 
+                       isHeadOfFamily() &&
+                       request.resource.data.houseId == getUserHouseId() &&
+                       request.resource.data.createdBy == getUserId() &&
+                       request.resource.data.updatedBy == getUserId() &&
+                       request.resource.data.houseName is string &&
+                       request.resource.data.houseNumber is string &&
+                       request.resource.data.street is string &&
+                       request.resource.data.ownership is string &&
+                       request.resource.data.floorType is string &&
+                       request.resource.data.totalFamilyMembers is string &&
+                       request.resource.data.headOfFamily is map &&
+                       request.resource.data.familyMembers is list &&
+                       request.resource.data.permanentAddress is string &&
+                       request.resource.data.ownerAddress is string;
+      
+      // Only heads of family can update residents in their own house (Requirement 4.3, 4.5)
+      allow update: if isAuthenticated() && 
+                       isHeadOfResidentHouse(resource.data) &&
+                       request.resource.data.houseId == resource.data.houseId &&
+                       request.resource.data.createdBy == resource.data.createdBy &&
+                       request.resource.data.updatedBy == getUserId();
+      
+      // Only heads of family can delete residents from their own house (Requirement 4.3, 4.5)
+      allow delete: if isAuthenticated() && 
+                       isHeadOfResidentHouse(resource.data);
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

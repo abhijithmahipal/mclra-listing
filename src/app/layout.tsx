@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
+import { AuthProvider } from "@/contexts";
 
 export const metadata: Metadata = {
   title: "MCLRA Thrissur",
@@ -43,11 +44,13 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        <div className="min-h-screen">
-          <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
-            {children}
+        <AuthProvider>
+          <div className="min-h-screen">
+            <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+              {children}
+            </div>
           </div>
-        </div>
+        </AuthProvider>
         <footer className="border-t border-gray-200 bg-white">
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-3">
