@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { db } from "@/lib/firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { db, auth } from "@/lib/firebase";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
+import { House } from "@/types";
 
 type Member = {
   name: string;
@@ -21,6 +28,34 @@ function AddHomePageContent() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [houseData, setHouseData] = useState<House | null>(null);
+  const [loadingHouseData, setLoadingHouseData] = useState(true);
+
+  // Fetch house data for prefilling
+  useEffect(() => {
+    const fetchHouseData = async () => {
+      if (!user?.houseId) {
+        setLoadingHouseData(false);
+        return;
+      }
+
+      try {
+        const houseDocRef = doc(db, "houses", user.houseId);
+        const houseDoc = await getDoc(houseDocRef);
+
+        if (houseDoc.exists()) {
+          setHouseData({ id: houseDoc.id, ...houseDoc.data() } as House);
+        }
+      } catch (error) {
+        console.error("Error fetching house data:", error);
+        setError("Failed to load house information");
+      } finally {
+        setLoadingHouseData(false);
+      }
+    };
+
+    fetchHouseData();
+  }, [user?.houseId]);
 
   const addMember = () => {
     setMembers((prev) => [
@@ -56,6 +91,23 @@ function AddHomePageContent() {
       return;
     }
 
+    // Get the current Firebase user ID
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      setError("Authentication error. Please log in again.");
+      setSubmitting(false);
+      return;
+    }
+
+    // Ensure house data is loaded
+    if (!houseData) {
+      setError(
+        "House information not loaded. Please refresh the page and try again."
+      );
+      setSubmitting(false);
+      return;
+    }
+
     const data = {
       timestamp: serverTimestamp(),
       houseNumber: String(formData.get("houseNumber") || ""),
@@ -79,9 +131,9 @@ function AddHomePageContent() {
       familyMembers: members,
       // Link resident data to user's house
       houseId: user.houseId,
-      // Add user tracking fields
-      createdBy: user.id,
-      updatedBy: user.id,
+      // Add user tracking fields using Firebase Auth UID
+      createdBy: currentUser.uid,
+      updatedBy: currentUser.uid,
     };
 
     try {
@@ -108,8 +160,45 @@ function AddHomePageContent() {
       </div>
 
       <div className="rounded-2xl p-6 bg-[--card] text-[--card-foreground] backdrop-blur-xl border border-[--border] shadow-[0_8px_30px_rgba(0,0,0,0.05)]">
-        {!success ? (
+        {loadingHouseData ? (
+          <div className="flex items-center justify-center py-8">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[--primary] mx-auto mb-4"></div>
+              <p className="text-[--muted-foreground]">
+                Loading house information...
+              </p>
+            </div>
+          </div>
+        ) : !success ? (
           <form onSubmit={onSubmit} className="space-y-6">
+            <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0">
+                  <svg
+                    className="h-5 w-5 text-blue-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                    Information Notice
+                  </h3>
+                  <p className="mt-1 text-sm text-blue-700 dark:text-blue-300">
+                    Some fields are automatically filled from your account
+                    information and cannot be edited. This ensures data
+                    consistency across the system.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <section className="space-y-4">
               <h2 className="text-xl font-medium pb-2 border-b border-[--border]">
                 Basic Household Information
@@ -124,12 +213,18 @@ function AddHomePageContent() {
                     House Number*
                   </label>
                   <input
-                    className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none"
+                    className="w-full px-3 py-2 rounded-md border border-[--border] bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 cursor-not-allowed"
                     id="houseNumber"
                     name="houseNumber"
                     required
+                    value={houseData?.houseNumber || "Loading..."}
+                    readOnly
                     placeholder="e.g., 42"
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    This field is automatically filled from your house
+                    registration
+                  </p>
                 </div>
 
                 <div>
@@ -263,14 +358,18 @@ function AddHomePageContent() {
                     className="block text-sm font-medium mb-1"
                     htmlFor="headName"
                   >
-                    Name*
+                    Name* (Head of Family)
                   </label>
                   <input
                     className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none"
                     id="headName"
                     name="headName"
                     required
+                    placeholder="Enter your full name"
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Enter your name as the head of family
+                  </p>
                 </div>
                 <div>
                   <label
@@ -281,11 +380,16 @@ function AddHomePageContent() {
                   </label>
                   <input
                     type="tel"
-                    className="w-full px-3 py-2 rounded-md border border-[--border] bg-transparent focus:ring-2 focus:ring-[--ring] outline-none"
+                    className="w-full px-3 py-2 rounded-md border border-[--border] bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 cursor-not-allowed"
                     id="headPhone"
                     name="headPhone"
                     required
+                    value={user?.phoneNumber || "Loading..."}
+                    readOnly
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    This is your registered phone number
+                  </p>
                 </div>
                 <div>
                   <label

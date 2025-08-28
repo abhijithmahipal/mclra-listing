@@ -81,7 +81,8 @@ export function withAuth<P extends object>(
                 Access Denied
               </h3>
               <p className="text-red-700 mb-4">
-                You don't have the required permissions to access this page.
+                You don&apos;t have the required permissions to access this
+                page.
               </p>
               <p className="text-sm text-red-600">
                 Required role: {requireRole}
@@ -168,7 +169,7 @@ export function withAuth<P extends object>(
                 Access Denied
               </h3>
               <p className="text-red-700 mb-4">
-                You don't have permission to access this page.
+                You don&apos;t have permission to access this page.
               </p>
               <button
                 onClick={() => router.push("/houses")}
